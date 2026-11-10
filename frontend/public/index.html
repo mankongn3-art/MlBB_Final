@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MLBBDex - Live Tier List & API</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="container">
+        <div class="header">
+            <h1>Hero Meta</h1>
+            <p>จัดอันดับฮีโร่ Mobile Legends ตามความยอดนิยม</p>
+        </div>
+
+        <div class="search-box">
+            <input type="text" id="q" placeholder="ค้นหาชื่อฮีโร่ที่ต้องการ..." autocomplete="off">
+        </div>
+
+        <div class="filter-panel">
+            <div class="sort">
+                <button data-sort="winRate" aria-pressed="true">Win rate</button>
+                <button data-sort="pickRate" aria-pressed="false">Pick rate</button>
+                <button data-sort="banRate" aria-pressed="false">Ban rate</button>
+                <button data-sort="tier" aria-pressed="false">Tier</button>
+            </div>
+            <button id="order" class="order-btn">มาก → น้อย</button>
+        </div>
+
+        <div id="summary" class="summary-text">0 Heroes</div>
+        <div id="status"></div>
+
+        <ul id="list" class="hero-list"></ul>
+    </div>
+
+    <!-- 🏆 กล่องเป้าหมายสแตนบายสำคัญสำหรับวาด Popup และโครงสร้าง Pro Build ไอเทมจริง (ห้ามลบเด็ดขาด) -->
+    <div id="detail"></div>
+
+    <script src="app.js"></script>
+</body>
+</html>
