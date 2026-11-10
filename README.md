@@ -43,10 +43,9 @@ frontend/   React + Vite
 
 | ข้อแนะนำจากงานแรก | สิ่งที่แก้ในงานนี้ | หลักฐาน Before / After |
 |---|---|---|
-แนะนำให้ลองเพิ่มไอเท็มในเกม
-                          สิ่งที่ต้องแก้
-                          รูปโหลดช้า
-                     รูปหลายรูปไม่เห็นหน้าตัวละคร
+| (แนะนำให้ลองเพิ่มไอเท็มในเกม) | แยก frontend เป็น React-Vite (component + hook) จาก vanilla JS ที่ใช้ `innerHTML` | Before: `app.js` ตัวเดียว / After: `frontend/src/components/*` (ใส่ภาพหน้าจอ) |
+| (ปรับขนาดรูปให้เห็นหน้าตัวละคร) | Express ตรวจ `sortBy`/`order` และตอบ 400 เมื่อไม่ถูกต้อง, ตอบ 502 เมื่อ API ต้นทางล่ม | Before: ค่าแปลกถูกส่งเข้า sort ตรง ๆ / After: ทดสอบ `/api/heroes?sortBy=x` ได้ 400 (ใส่ภาพหน้าจอ) |
+| (ปรับให้รูปโหลดไว้ขึ้น) | UI มีสถานะ loading / error (มีปุ่มลองใหม่) / empty / success | Before: error แสดงข้อความเดียว ไม่มี retry / After: `HeroList.jsx` (ใส่ภาพหน้าจอ) |
 
 ## Component Tree
 
