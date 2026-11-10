@@ -1,0 +1,89 @@
+# Hero Meta (MLBBDex Live Tier List)
+
+801201 การออกแบบอัลกอริทึมและการพัฒนาเว็บ — ใบงานต่อยอด API ด้วย React-Vite + Express
+
+เว็บจัดอันดับฮีโร่ Mobile Legends ตาม Win / Pick / Ban rate และ Tier พร้อมดูชุดไอเทมของแต่ละฮีโร่
+API ที่ใช้: MLBB-API (`hero-meta-final.json`, `item-meta-final.json`) ผ่าน Express
+
+## วิธีรัน
+
+```bash
+# Terminal 1: backend (port 3000)
+cd backend
+npm install
+npm start
+
+# Terminal 2: frontend (port 5173, proxy /api -> 3000)
+cd frontend
+npm install
+npm run dev
+```
+
+เปิด http://localhost:5173
+
+## โครงสร้างโปรเจกต์
+
+```
+backend/    Express: cache, validate, รวมข้อมูล, Merge Sort
+  server.js
+  utils/mergeSort.js
+  stats.json, items.json
+frontend/   React + Vite
+  src/App.jsx
+  src/hooks/useHeroes.js
+  src/components/ (SearchBar, SortBar, HeroList, HeroRow, HeroModal, tier.js)
+```
+
+## 7.1 ตารางส่วนร่วม
+
+|---|---|---|---|
+| ณัฏฐกิตติ์ มั่นคง | 681310400 |
+
+
+> แก้ตารางให้ตรงกับคนที่ทำจริงและ commit history ใน GitHub (ใช้ชื่อไฟล์/route ไม่ใช่เปอร์เซ็นต์)
+
+## 7.2 ตารางข้อแนะนำจากงานแรก → สิ่งที่แก้
+
+| ข้อแนะนำจากงานแรก | สิ่งที่แก้ในงานนี้ | หลักฐาน Before / After |
+|---|---|---|
+| (ใส่ข้อแนะนำจากอาจารย์ในงานแรก ข้อ 1) | แยก frontend เป็น React-Vite (component + hook) จาก vanilla JS ที่ใช้ `innerHTML` | Before: `app.js` ตัวเดียว / After: `frontend/src/components/*` (ใส่ภาพหน้าจอ) |
+| (ใส่ข้อแนะนำ ข้อ 2) | Express ตรวจ `sortBy`/`order` และตอบ 400 เมื่อไม่ถูกต้อง, ตอบ 502 เมื่อ API ต้นทางล่ม | Before: ค่าแปลกถูกส่งเข้า sort ตรง ๆ / After: ทดสอบ `/api/heroes?sortBy=x` ได้ 400 (ใส่ภาพหน้าจอ) |
+| (ใส่ข้อแนะนำ ข้อ 3) | UI มีสถานะ loading / error (มีปุ่มลองใหม่) / empty / success | Before: error แสดงข้อความเดียว ไม่มี retry / After: `HeroList.jsx` (ใส่ภาพหน้าจอ) |
+
+> เติมข้อแนะนำจริงจากงานแรก และแนบภาพ Before/After ทั้งสองเวอร์ชัน
+
+## Component Tree
+
+```
+App  (state: sortBy, order, q, selected; ใช้ useHeroes)
+├─ SearchBar        (props: value, onChange)
+├─ SortBar          (props: sortBy, order, onSort, onToggleOrder)
+├─ HeroList         (props: rows, sortBy, status, error, onRetry, onSelect)
+│   └─ HeroRow × n  (props: hero, rank, sortBy, max, onClick)
+└─ HeroModal        (props: hero, onClose; ดึง /api/heroes/:slug เอง)
+```
+
+เหตุผล: state ที่หลาย component ต้องใช้ร่วมกัน (sortBy, order, q, selected) อยู่ที่ `App`
+ส่วนข้อมูลที่ใช้เฉพาะ popup (ชุดไอเทม) อยู่ใน `HeroModal`
+
+## หน้าที่ของ Express (ไม่ใช่แค่ทางผ่าน)
+
+- **Cache** ข้อมูลจาก API ต้นทาง 30 นาที ลดการเรียกซ้ำ
+- **Validate** `sortBy` ∈ {winRate, pickRate, banRate, tier}, `order` ∈ {asc, desc} ไม่ผ่านตอบ 400
+- **ประมวลผล/รวมข้อมูล**: ผสมข้อมูล API กับ `stats.json` และ `items.json`, จัด Tier, แก้ URL รูปภาพ, ใช้ชุดไอเทมเริ่มต้นตาม role เมื่อ API ไม่มี build
+- **จัดการ error**: API ต้นทางล่มตอบ 502 พร้อมข้อความ ระบบไม่ล่ม
+- **จัดเรียง** ด้วย Merge Sort (ดูหัวข้อถัดไป)
+
+## DSA: Merge Sort (ฝั่ง Express)
+
+- ไฟล์: `backend/utils/mergeSort.js` ใช้ใน `GET /api/heroes` (`server.js`)
+- ทำไมทำฝั่ง Express: จัดเรียงครั้งเดียวก่อนส่ง React ได้ลำดับที่ตรงกันทุกเครื่อง และ React ไม่ต้องคำนวณซ้ำ
+- ความซับซ้อน: เวลา O(n log n) ทุกกรณี, พื้นที่เพิ่ม O(n)
+- Stable: ฮีโร่ที่ค่าเท่ากันรักษาลำดับเดิม (ใช้ `<=` ตอน merge) ผลลัพธ์จึงไม่สลับตำแหน่งเวลา sort ซ้ำ
+- เหตุผลที่ไม่เลือกทางอื่น: Bubble/Insertion Sort เป็น O(n²) ช้าลงเมื่อฮีโร่เพิ่ม, Quick Sort แย่สุด O(n²) และไม่ stable
+- ก่อน–หลัง: (ใส่ผลวัดเวลาจริงของคุณเอง เช่น `console.time` เทียบกับ Bubble Sort)
+
+## หมายเหตุ
+
+- ห้าม commit `.env*` และ `.vercel` (อยู่ใน `.gitignore` แล้ว)
+- Deploy ไม่บังคับ คลิปใช้แสดงการทำงานแทน
