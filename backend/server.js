@@ -3,10 +3,13 @@ const app = express();
 const path = require("path");
 const fs = require("fs");
 const cors = require("cors");
+const { mergeSort } = require("./utils/mergeSort");
 
 app.use(cors());
-app.use(express.static(path.join(__dirname, "../frontend/public")));
 const PORT = process.env.PORT || 3000;
+
+const VALID_SORT = ["winRate", "pickRate", "banRate", "tier"];
+const VALID_ORDER = ["asc", "desc"];
 
 const HERO_API_URL = "https://raw.githubusercontent.com/p3hndrx/MLBB-API/main/v1/hero-meta-final.json";
 const ITEM_API_URL = "https://raw.githubusercontent.com/p3hndrx/MLBB-API/main/v1/item-meta-final.json";
@@ -133,7 +136,13 @@ const TIER_RANK = { "SS": 6, "S": 5, "A": 4, "B": 3, "C": 2, "D": 1 };
 app.get("/api/heroes", async (req, res) => {
   try {
     const { sortBy = "winRate", order = "desc" } = req.query;
+    if (!VALID_SORT.includes(sortBy) || !VALID_ORDER.includes(order)) {
+      return res.status(400).json({ success: false, error: "พารามิเตอร์ sortBy หรือ order ไม่ถูกต้อง" });
+    }
     const { heroes } = await fetchMLBBData();
+    if (!heroes.length) {
+      return res.status(502).json({ success: false, error: "ดึงข้อมูลจาก API ต้นทางไม่ได้" });
+    }
     const statsMap = getLocalStatsMap(); // 🟢 ดึงข้อมูลสถิติจาก stats.json
 
     const formatted = heroes
@@ -182,7 +191,8 @@ app.get("/api/heroes", async (req, res) => {
       return order === "asc" ? valA - valB : valB - valA;
     };
 
-    const sorted = [...formatted].sort(compareFn);
+    // DSA: Merge Sort เขียนเอง O(n log n) ทำงานฝั่ง Express ก่อนส่งให้ React
+    const sorted = mergeSort(formatted, compareFn);
     res.json({ success: true, total: sorted.length, data: sorted });
   } catch (err) {
     res.status(502).json({ success: false, error: "จัดเรียงข้อมูลหลังบ้านล้มเหลว" });
