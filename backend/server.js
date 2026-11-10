@@ -282,7 +282,7 @@ app.get("/api/heroes/:slug", async (req, res) => {
 });
 
 if (require.main === module) {
-  app.listen(PORT, () => console.log(`🚀 Live API Server running at http://localhost:${PORT}`));
+  app.listen(PORT, "127.0.0.1", () => console.log(`🚀 Live API Server running at http://127.0.0.1:${PORT}`));
 }
 
 module.exports = app;
