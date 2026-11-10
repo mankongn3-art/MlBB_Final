@@ -47,7 +47,7 @@ frontend/   React + Vite
 ) |
 | (ปรับขนาดรูปให้เห็นหน้าตัวละคร) | ux ดูธรรมดา | <img width="500" height="400" alt="image" src="https://github.com/user-attachments/assets/2c1335f9-5f19-488f-a64d-f39f94289f1b" />
  |
-| (ปรับให้รูปโหลดไว้ขึ้น) | EMBLEM SPELLที่ยังไม่มีรูป | <img width="600" height="100" alt="image" src="https://github.com/user-attachments/assets/a0189ed1-9cfa-41e8-8670-2ccd38faf47b" />
+| (ปรับให้รูปโหลดไว้ขึ้น) | EMBLEM SPELLที่ยังไม่มีรูป | <img width="600" height="190" alt="image" src="https://github.com/user-attachments/assets/a0189ed1-9cfa-41e8-8670-2ccd38faf47b" />
  |
 
 ## Component Tree
