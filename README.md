@@ -10,7 +10,7 @@ npm install
 npm run dev
 node backend/server.js
 
-เปิด http://localhost:5173
+เปิด (http://localhost:3000)
 
 ## โครงสร้างโปรเจกต์
 
