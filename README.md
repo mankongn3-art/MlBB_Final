@@ -36,7 +36,9 @@ frontend/   React + Vite
 
 ## 7.1 ตารางส่วนร่วม
 
-| ณัฏฐกิตติ์ มั่นคง | 681310400 |
+| ชื่อ-สกุล | รหัสนักศึกษา | ชิ้นงานที่รับผิดชอบ (ไฟล์ / component / route / DSA) | ช่วงที่นำเสนอในคลิป |
+|---|---|---|---|
+| ณัฏฐกิตติ์ มั่นคง | 681310400 | ทั้งโปรเจกต์ ได้แก่ `backend/server.js` (route `/api/heroes`, `/api/heroes/:slug`), `backend/utils/mergeSort.js`, `frontend/src/App.jsx`, `hooks/useHeroes.js`, `components/*` | ทั้งคลิป (ช่วง 1–6) |
 
 
 ## 7.2 ตารางข้อแนะนำจากงานแรก → สิ่งที่แก้
