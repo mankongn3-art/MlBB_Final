@@ -45,8 +45,7 @@ frontend/   React + Vite
 
 | ข้อแนะนำจากงานแรก | สิ่งที่แก้ในงานนี้ | หลักฐาน|
 |---|---|---|
-| (แนะนำให้ลองเพิ่มไอเท็มในเกม) | รูปไอเท็มไม่โหลด | <img width="500" height="400" alt="image" src="https://github.com/user-attachments/assets/4eb40485-b190-4735-ae7f-473ac75c089d" />
-) |
+| (แนะนำให้ลองเพิ่มไอเท็มในเกม) | รูปไอเท็มไม่โหลด | <img width="500" height="400" alt="image" src="https://github.com/user-attachments/assets/4eb40485-b190-4735-ae7f-473ac75c089d" />) |
 | (ปรับขนาดรูปให้เห็นหน้าตัวละคร) | ux ดูธรรมดา | <img width="500" height="400" alt="image" src="https://github.com/user-attachments/assets/2c1335f9-5f19-488f-a64d-f39f94289f1b" />
  |
 | (ปรับให้รูปโหลดไว้ขึ้น) | EMBLEM SPELLที่ยังไม่มีรูป | <img width="600" height="190" alt="image" src="https://github.com/user-attachments/assets/a0189ed1-9cfa-41e8-8670-2ccd38faf47b" />
