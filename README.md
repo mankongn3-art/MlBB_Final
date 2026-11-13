@@ -42,12 +42,11 @@ frontend/   React + Vite
 
 
 ## 7.2 ตารางข้อแนะนำจากงานแรก → สิ่งที่แก้
-
-| ข้อแนะนำจากงานแรก | สิ่งที่แก้ในงานนี้ | หลักฐาน|
+| ข้อแนะนำจากงานแรก | สิ่งที่แก้ในงานนี้ | หลักฐาน |
 |---|---|---|
-| (แนะนำให้ลองเพิ่มไอเท็มในเกม) | รูปไอเท็มไม่โหลด | <img width="400" height="400" alt="image" src="https://github.com/user-attachments/assets/4eb40485-b190-4735-ae7f-473ac75c089d" />) |
-| (ปรับขนาดรูปให้เห็นหน้าตัวละคร) | ux ดูธรรมดา | <img width="400" height="400" alt="image" src="https://github.com/user-attachments/assets/2c1335f9-5f19-488f-a64d-f39f94289f1b" />
-| (ปรับให้รูปโหลดไว้ขึ้น) | EMBLEM SPELLที่ยังไม่มีรูป | <img width="400" height="400" alt="สกรีนช็อต 2026-11-13 082738" src="https://github.com/user-attachments/assets/60c800e8-4db4-4afc-b914-8ee0e76754b8" /> |
+| แนะนำให้ลองเพิ่มไอเท็มในเกม | แก้ให้รูปไอเท็มโหลดขึ้น | <img width="400" alt="image" src="https://github.com/user-attachments/assets/4eb40485-b190-4735-ae7f-473ac75c089d" /> |
+| ปรับขนาดรูปให้เห็นหน้าตัวละคร | ปรับ UX ขยายรูปฮีโร่ให้เห็นหน้าตัวละครชัดขึ้น | <img width="400" alt="image" src="https://github.com/user-attachments/assets/2c1335f9-5f19-488f-a64d-f39f94289f1b" /> |
+| ปรับให้รูปโหลดไวขึ้น | เพิ่มรูป Emblem / Spell ที่ยังไม่มีรูป | <img width="400" alt="สกรีนช็อต 2026-11-13 082738" src="https://github.com/user-attachments/assets/60c800e8-4db4-4afc-b914-8ee0e76754b8" /> |
 
 ## Component Tree
 
@@ -73,10 +72,19 @@ App  (state: sortBy, order, q, selected; ใช้ useHeroes)
 
 ## DSA: Merge Sort (ฝั่ง Express)
 
+- ก่อน–หลัง: วัดเวลาเรียง Merge Sort (`mergeSort.js`) เทียบกับ Bubble Sort ด้วย `backend/utils/benchmark.mjs` (ค่ากลางของหลายรอบ)
+
+| จำนวนข้อมูล (n) | Merge Sort (ms) | Bubble Sort (ms) | Bubble ช้ากว่า (เท่า) |
+|---|---|---|---|
+| 130 | 0.112 | 0.058 | 0.5x |
+| 1000 | 0.341 | 1.367 | 4.0x |
+| 5000 | 2.034 | 34.088 | 16.8x |
+| 10000 | 3.667 | 141.683 | 38.6x |
+
+สรุป: ที่ n = 130 (ใกล้จำนวนฮีโร่จริง) สองแบบต่างกันเพียงเสี้ยวมิลลิวินาที แต่เมื่อข้อมูลโตขึ้น Bubble Sort ช้าลงเร็วมากตาม O(n²) ขณะที่ Merge Sort โตตาม O(n log n) จึงเลือก Merge Sort เพราะรองรับข้อมูลที่เพิ่มขึ้นและ stable
 - ไฟล์: `backend/utils/mergeSort.js` ใช้ใน `GET /api/heroes` (`server.js`)
 - ทำไมทำฝั่ง Express: จัดเรียงครั้งเดียวก่อนส่ง React ได้ลำดับที่ตรงกันทุกเครื่อง และ React ไม่ต้องคำนวณซ้ำ
 - ความซับซ้อน: เวลา O(n log n) ทุกกรณี, พื้นที่เพิ่ม O(n)
 - Stable: ฮีโร่ที่ค่าเท่ากันรักษาลำดับเดิม (ใช้ `<=` ตอน merge) ผลลัพธ์จึงไม่สลับตำแหน่งเวลา sort ซ้ำ
 - เหตุผลที่ไม่เลือกทางอื่น: Bubble/Insertion Sort เป็น O(n²) ช้าลงเมื่อฮีโร่เพิ่ม, Quick Sort แย่สุด O(n²) และไม่ stable
 - ก่อน–หลัง: (ใส่ผลวัดเวลาจริงของคุณเอง เช่น `console.time` เทียบกับ Bubble Sort)
-
